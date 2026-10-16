@@ -1,0 +1,40 @@
+<nav class="bg-bat-night text-bat-yellow-dark flex justify-between items-center gap-x-3 py-4 px-4 md:py-10 md:px-10 border-b-2 border-bat-yellow">
+    <h1 class="text-xl md:text-3xl font-bold flex-auto md:w-70">
+        Club-House
+    </h1>
+
+    <div class="md:mr-4 text-sm md:text-lg flex items-start gap-x-2 md:gap-x-6">
+        <% if (typeof user !== "undefined" && user) { %>
+
+            <div class="relative">
+                <button class="text-xs navBtn border-bat-yellow-dark border-2 px-2" id="memberBtn">Member</button>
+                <form action="/member" method="POST" id="memberForm" class="hidden absolute right-0 top-full mt-2 z-20">
+                    <input
+                        type="text"
+                        name="passcode"
+                        placeholder="Enter passcode"
+                        class="w-32 rounded border px-2 py-1 text-sm bg-bat-night"
+                        required
+                    >
+                </form>
+            </div>
+
+            <form action="/logout" method="POST">
+                <button class="navBtn border-bat-yellow-dark border-2 px-2" type="submit">Log-Out</button>
+            </form>
+
+        <% } else { %>
+
+            <button class="navBtn border-bat-yellow-dark border-2 px-2">
+                <a href="/signup">Sign-In</a>
+            </button>
+
+            <button class="navBtn border-bat-yellow-dark border-2 px-2">
+                <a href="/login">Log-In</a>
+            </button>
+
+        <% } %>
+    </div>
+</nav>
+
+<script src="/member.js" defer></script>

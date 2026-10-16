@@ -1,0 +1,73 @@
+<%- include('partials/head') %>
+
+    <body class="bg-bat-night min-h-dvh md:h-dvh flex flex-col">
+        <%- include('partials/navbar') %>
+        <div class="flex-1 md:min-h-0 flex flex-col md:flex-row">
+            <% if (msg && msg.length> 0) { %>
+                <div class="w-full md:w-2/3 flex flex-col gap-y-4 border-2 border-bat-yellow justify-start no-scrollbar items-center bg-bat-night p-4 md:p-4 md:overflow-y-auto">
+                    <% if (user) { %>
+    <p class="text-bat-yellow shrink-0">Welcome back, <%= user.username %></p>
+<% } %>
+                    <% msg.forEach(m => { %>
+                        <div
+                            class="border-2 border-bat-yellow text-bat-yellow-dark bg-bat-blue-dark w-full max-w-110">
+                            <div class="border-b-bat-yellow border-b-2">
+                                <div class="flex justify-between mx-2 text-bat-blue-light text-sm py-1">
+                                    <% if (user && (user.id === m.user_id || user.is_admin || user.is_member)) { %>
+                                        <p>Author: <%= m.username %></p>
+                                        <p><%= m.created_at.toLocaleDateString("en-CA") %></p>
+                                        <% } else { %>
+                                        <p>Author: *****</p>
+                                        <p>*****</p>
+                                    <% } %>
+                                </div>
+                            </div>
+                                <h1 class="pl-2 pt-2 text-xl font-semibold text-gray-300/90 wrap-break-word">
+                                    <%= m.title %>
+                                </h1>
+                                <h1 class="pl-2 py-1 wrap-break-word font-light text-bat-yellow">
+                                    <%= m.text %>
+                                </h1>
+                                <% if(user && (user.is_admin || user.id === m.user_id) ) { %>
+                                    <div class="flex justify-end">
+                                        <form action="/delete/<%= m.id %>" method="POST">
+                                            <button type="submit" class="m-2 cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                                        </form>
+                                    </div>
+                                <% } %>
+                        </div>
+                        <% }) %>
+                    </div>
+                    <% } %>
+                    <div id="write" class="w-full md:w-1/3 relative flex justify-center items-center p-4 md:p-4">
+                        <% if (!user) { %>
+                            <div class="flex justify-center items-center absolute inset-0 z-10 bg-gray-800/90">
+                                <p class="text-white text-xl md:text-2xl text-center md:mt-5">Can only write Messages when Logged-In</p>
+                            </div>
+                        <% } %>
+                        <div class="w-full max-w-sm  md:w-auto flex flex-col items-center item-center gap-4 p-4 border-4 border-bat-blue-light ">
+                            <div class="w-full border-b-2 border-bat-blue">
+                                <h1 class="text-xl md:text-2xl text-center text-bat-yellow-dark mb-2">Write Message</h1>
+                            </div>
+                            <form  class="w-full flex flex-col items-start  gap-2" action="/messages/add" method="POST">
+                                <label class="text-bat-yellow-dark" for="title">Title:</label>
+                                <input class="input w-full" type="text" name="title" id="title">
+                                <label class="text-bat-yellow-dark" for="text">Message:</label>
+                                <textarea class="input w-full h-20 scrollbar-none" name="text" id="text" placeholder="Write a Message"></textarea>
+                                <button type="submit" class="navBtn text-bat-yellow-dark border border-bat-yellow-dark m-auto px-2">ADD</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                  <% if (user) { %>
+        <a href="#write" aria-label="Write a message"
+           class="md:hidden fixed bottom-4 right-4 z-20 w-12 h-12 rounded-full bg-bat-yellow text-bat-night flex items-center justify-center shadow-lg">
+            <i class="fa-solid fa-pen"></i>
+        </a>
+    <% } %>
+
+                <%- include('partials/footer') %>
+    </body>
+
+    </html>

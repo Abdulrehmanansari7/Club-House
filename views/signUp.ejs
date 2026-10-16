@@ -1,0 +1,41 @@
+<%- include('partials/head') %>
+<body class="flex flex-col min-h-dvh">
+    <%- include('partials/navbar') %>
+
+    <div class="bg-bat-blue flex-1 flex flex-col justify-center items-center px-4 py-8">
+        <div class="bg-bat-blue-dark border-2 border-bat-yellow-light w-full max-w-70 min-h-50 py-6 flex flex-col justify-center items-center">
+            <h1 class="mb-4 text-xl text-bat-yellow">Sign-In Form</h1>
+            <form class="w-full px-6 gap-y-2 flex flex-col items-center" action="/addUser" method="POST">
+                <input
+                    class="input w-full"
+                    type="text"
+                    name="username"
+                    value="<%= typeof username !== 'undefined' ? username : '' %>"
+                    required
+                >
+                <input type="password" name="password" id="password" class="input w-full" required>
+                <button class="text-bat-yellow border-2 border-bat-yellow w-20 navBtn" type="submit">Submit</button>
+            </form>
+        </div>
+
+        <% if (typeof errors !== "undefined" && errors.length > 0) { %>
+            <div class="bg-red-100 border border-red-400 rounded-lg p-3 mt-2 w-full max-w-70">
+                <ul class="list-disc pl-5">
+                    <% errors.forEach((error) => { %>
+                        <li class="text-sm text-red-700"><%= error.msg %></li>
+                    <% }) %>
+                </ul>
+            </div>
+        <% } %>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        const password = document.querySelector("#password");
+        password.addEventListener("click", () => {
+            password.type = password.type === "password" ? "text" : "password";
+        });
+    </script>
+</body>
+</html>

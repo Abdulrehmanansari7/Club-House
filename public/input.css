@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bat-blue-light: #8fa3b8;
+  --color-bat-blue: #5c7a99;
+  --color-bat-blue-dark: #3e5470;
+  --color-bat-night: #1f2a3a;
+
+  --color-bat-yellow-light: #ffe45c;
+  --color-bat-yellow: #ffd100;
+  --color-bat-yellow-dark: #e6b800;
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.navBtn:hover {
+  @apply border-2 border-bat-blue bg-bat-blue-dark px-2;
+}
+
+.input {
+  @apply border-2 border-bat-blue-light my-1 text-white pl-2;
+}
