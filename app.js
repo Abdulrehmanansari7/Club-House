@@ -7,10 +7,13 @@ import { Strategy as LocalStrategy } from "passport-local";
 import dotenv from "dotenv";
 import pool from "./db/db.js";
 import bcrypt from "bcryptjs";
+import connectPgSimple from "connect-pg-simple";
 
 dotenv.config();
 
 const __dirname = import.meta.dirname;
+const PORT = process.env.PORT || 3000;
+const PgSession = connectPgSimple(session);
 
 const app = express();
 app.set("views", path.join(__dirname,"views"));
@@ -18,7 +21,13 @@ app.set("view engine", "ejs")
 
 app.use(express.static("public"))
 app.use(express.urlencoded({extended: false}));
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false}));  
+app.use(session({ 
+    store: new PgSession({ pool, createTableIfMissing: true}),
+    secret: process.env.SESSION_SECRET, 
+    resave: false, 
+    saveUninitialized: false,
+    cookie: {maxAge: 1000 * 60 * 60 * 24 * 7}
+}));  
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -70,6 +79,6 @@ app.use((req,res,next) => {
 
 app.use("/", userRouter);
 
-app.listen(3000,(err) => {
+app.listen(PORT,(err) => {
     console.log("SERVER IS RUNNING");
 })
